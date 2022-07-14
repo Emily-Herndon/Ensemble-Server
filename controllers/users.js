@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 
 router.post("/register", async (req, res) => {
 	try {
+		// res.send("user registered")
 		// check if the user exists already
 		const findUser = await db.User.findOne({
 			email: req.body.email,
@@ -23,9 +24,9 @@ router.post("/register", async (req, res) => {
 
 		// create a new user with the hashed password
 		const newUser = new db.User({
-			firstName: newUser.firstName,
-			lastName: newUser.lastName,
-			userName: newUser.userName,
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			userName: req.body.userName,
 			email: req.body.email,
 			password: hashedPassword,
 		})
@@ -48,6 +49,7 @@ router.post("/register", async (req, res) => {
 			res.status(400).json({ msg: err.message })
 		} else {
 			// handle all other errors
+			console.log(err)
 			res.status(500).json({ msg: "server error 500" })
 		}
 	}
@@ -103,7 +105,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile/:userName", async (req, res) => {
 	try {
-		res.send("GET profile/:userName")
+		const userId = res.locals.user._id
 	} catch (error) {
 		console.warn(error)
 	}

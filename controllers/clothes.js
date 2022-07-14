@@ -17,6 +17,7 @@ router.post("/", async (req, res) => {
 	}
 })
 
+//PUT /clothes/:id -- edit a specific clothing
 router.put("/id", async (req, res) => {
 	try {
 		//get id from url params
@@ -39,6 +40,7 @@ router.put("/id", async (req, res) => {
 	}
 })
 
+//DELETE /clothes/:id --delete a clothing
 router.delete("/:id", async (res, req) => {
 	try {
 		//get id of specific clothes form the params
