@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 // Tag Schema
 const TagSchema = new mongoose.Schema({
-	firstName: {
+	tagName: {
 		type: String,
 	},
 	clothes: [
