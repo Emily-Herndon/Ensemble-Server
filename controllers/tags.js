@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 	}
 })
 
-// POST a tag
+// POST a tags
 router.post("/", async (req, res) => {
 	try {
 		// Add a tag to the DB
