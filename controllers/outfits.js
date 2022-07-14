@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 })
 
 //POST /outfits -- create a new outfit
-router.post("/", async (res, req) => {
+router.post("/", async (req, res) => {
 	try {
 		//create a new outfit using req.body
 		const newOutfit = await db.Outfit.create(req.body)
@@ -46,7 +46,7 @@ router.put("/:id", async (req, res) => {
 			options
 		)
 		//the update bounty back to client
-		res.json(updatedClothes)
+		res.json(updatedOutfit)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })

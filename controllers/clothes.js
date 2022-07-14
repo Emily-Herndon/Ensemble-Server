@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
 })
 
 //PUT /clothes/:id -- edit a specific clothing
-router.put("/id", async (req, res) => {
+router.put("/:id", async (req, res) => {
 	try {
 		//get id from url params
 		const id = req.params.id
@@ -41,12 +41,12 @@ router.put("/id", async (req, res) => {
 })
 
 //DELETE /clothes/:id --delete a clothing
-router.delete("/:id", async (res, req) => {
+router.delete("/:id", async (req, res) => {
 	try {
 		//get id of specific clothes form the params
 		const id = req.params.id
 		//find and delete the clothes from bd
-		const deletedClothes = await db.Clothes.findByIdAndDelete(id)
+		await db.Clothes.findByIdAndDelete(id)
 		//send no content status
 		res.sendStatus(204)
 	} catch (error) {

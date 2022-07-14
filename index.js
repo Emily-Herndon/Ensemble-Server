@@ -5,7 +5,7 @@ const cors = require("cors")
 
 // app config/middlewares
 const app = express()
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 7000
 app.use(cors())
 app.use(express.json()) //json req.bodies
 // static upload folder for images
@@ -17,8 +17,8 @@ app.get("/", (req, res) => {
 
 // Route specific middleware
 app.use("/users", require("./controllers/users"))
-app.use("/tag", require("./controllers/users"))
-app.use("/outfit", require("./controllers/outfit"))
+app.use("/tags", require("./controllers/tags"))
+app.use("/outfits", require("./controllers/outfits"))
 app.use("/clothes", require("./controllers/clothes"))
 
 app.listen(PORT, () => {
