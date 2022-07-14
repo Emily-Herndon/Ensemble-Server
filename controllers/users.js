@@ -105,7 +105,8 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile/:userName", async (req, res) => {
 	try {
-		const userId = res.locals.user._id
+		// const userId = res.locals.user._id
+		res.send("user profile")
 	} catch (error) {
 		console.warn(error)
 	}

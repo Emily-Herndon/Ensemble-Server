@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 // Clothes Schema
 const ClothesSchema = new mongoose.Schema({
-	clothName: {
+	clothesName: {
 		type: String,
 		required: true,
 	},
@@ -16,7 +16,6 @@ const ClothesSchema = new mongoose.Schema({
 	},
 	imgUrl: {
 		type: String,
-		required: true,
 	},
 	outfits: [
 		{

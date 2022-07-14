@@ -2,12 +2,13 @@ const router = require("express").Router()
 const { model } = require("mongoose")
 const db = require("../models")
 
-//Post /clothes -- create a new clothing
-router.post("/", async (req, res) => {
+//GET /outfits -- gets all the outfits
+router.get("/", async (req, res) => {
 	try {
-		//create the clothes in bd
-		const newClothes = await db.Clothes.create(req.body)
-		res.status(201).json(newClothes)
+		//finds al of the outfits in the database
+		const allOutfits = await db.Outfit.find({})
+
+		res.json(allOutfits)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
@@ -17,20 +18,35 @@ router.post("/", async (req, res) => {
 	}
 })
 
-//PUT /clothes/:id -- edit a specific clothing
+//POST /outfits -- create a new outfit
+router.post("/", async (req, res) => {
+	try {
+		//create a new outfit using req.body
+		const newOutfit = await db.Outfit.create(req.body)
+		res.status(201).json(newOutfit)
+	} catch (error) {
+		if (error.name === "ValidationError") {
+			res.status(400).json({ msg: error.message })
+		} else {
+			res.status(500).json({ msg: "server error" })
+		}
+	}
+})
+
+//PUT /outfits/:id -- edit an outfit
 router.put("/:id", async (req, res) => {
 	try {
-		//get id from url params
+		//find the outfit by id in params
 		const id = req.params.id
-		//search for the id in the db, and update the req.body
 		const options = { new: true } //return the updated bounty to us
-		const updatedClothes = await db.Clothes.findByIdAndUpdate(
+		//find outfit in the database with the help of an id
+		const updatedOutfit = await db.Outfit.findByIdAndUpdate(
 			id,
 			req.body,
 			options
 		)
 		//the update bounty back to client
-		res.json(updatedClothes)
+		res.json(updatedOutfit)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
@@ -40,18 +56,15 @@ router.put("/:id", async (req, res) => {
 	}
 })
 
-//DELETE /clothes/:id --delete a clothing
+//DELETE /outfits/:id -- delete a specific outfit
 router.delete("/:id", async (req, res) => {
 	try {
-		// res.send("clothing deleted")
-		//get id of specific clothes form the params
+		//define a id that needs to be deleted with params
 		const id = req.params.id
-		//find and delete the clothes from bd
-		await db.Clothes.findByIdAndDelete(id)
-		//send no content status
+		//find and delete a specific outfit
+		await db.Outfit.findByIdAndDelete(id)
 		res.sendStatus(204)
 	} catch (error) {
-		//use status
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
 		} else {

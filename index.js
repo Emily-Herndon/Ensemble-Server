@@ -17,8 +17,8 @@ app.get("/", (req, res) => {
 
 // Route specific middleware
 app.use("/users", require("./controllers/users"))
-app.use("/tag", require("./controllers/users"))
-app.use("/outfit", require("./controllers/outfit"))
+app.use("/tags", require("./controllers/tags"))
+app.use("/outfits", require("./controllers/outfits"))
 app.use("/clothes", require("./controllers/clothes"))
 
 app.listen(PORT, () => {
