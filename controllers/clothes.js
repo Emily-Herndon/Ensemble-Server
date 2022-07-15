@@ -2,10 +2,10 @@ const router = require("express").Router()
 const { model } = require("mongoose")
 const db = require("../models")
 
-//Post /clothes -- create a new clothing
+//Post /clothes -- create a new clothing item
 router.post("/", async (req, res) => {
 	try {
-		//create the clothes in bd
+		//create the clothes in the db
 		const newClothes = await db.Clothes.create(req.body)
 		res.status(201).json(newClothes)
 	} catch (error) {
@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 	}
 })
 
-//PUT /clothes/:id -- edit a specific clothing
+//PUT /clothes/:id -- edit a specific clothing item
 router.put("/:id", async (req, res) => {
 	try {
 		//get id from url params
@@ -40,11 +40,11 @@ router.put("/:id", async (req, res) => {
 	}
 })
 
-//DELETE /clothes/:id --delete a clothing
+//DELETE /clothes/:id --delete a clothing item
 router.delete("/:id", async (req, res) => {
 	try {
 		// res.send("clothing deleted")
-		//get id of specific clothes form the params
+		//get id of specific clothes from the params
 		const id = req.params.id
 		//find and delete the clothes from bd
 		await db.Clothes.findByIdAndDelete(id)
