@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
 		//finds al of the outfits in the database
 		const allOutfits = await db.Outfit.find({})
 
-		res.json(allOutfits)
+		res.status(200).json(allOutfits)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
