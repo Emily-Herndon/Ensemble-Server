@@ -3,7 +3,7 @@ require("./models") // connect to the db
 const express = require("express")
 const cors = require("cors")
 
-// app config/middlewares
+// app config/middleware
 const app = express()
 const PORT = process.env.PORT || 8000
 app.use(cors())
@@ -22,5 +22,5 @@ app.use("/outfits", require("./controllers/outfits"))
 app.use("/clothes", require("./controllers/clothes"))
 
 app.listen(PORT, () => {
-	console.log(`is the PORT ${PORT} that I hear? 🌽`)
+	console.log(`is that the PORT ${PORT} that I hear? 🌽`)
 })

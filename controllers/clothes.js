@@ -5,8 +5,14 @@ const db = require("../models")
 //Post /clothes -- create a new clothing item
 router.post("/", async (req, res) => {
 	try {
+		
 		//create the clothes in the db
 		const newClothes = await db.Clothes.create(req.body)
+		// find current user
+		const findUser = db.User.findOne({})
+		// push new clothes into found user's clothes relationship
+		// add user to clothes relationship
+		// save both
 		res.status(201).json(newClothes)
 	} catch (error) {
 		if (error.name === "ValidationError") {
