@@ -4,19 +4,19 @@ const db = require("../models")
 
 // GET ALL the tags
 router.get("/", async (req, res) => {
-  try {
-    const allTags = await db.Tag.find({})
-    res.send(allTags)
-  } catch (error) {
-    if (error.name === "ValidationError") {
-      res.status(400).json({ msg: error.message })
-    } else {
-      res.status(500).json({ msg: "server error" })
-    }
-  }
+	try {
+		const allTags = await db.Tag.find({})
+		res.json(allTags)
+	} catch (error) {
+		if (error.name === "ValidationError") {
+			res.status(400).json({ msg: error.message })
+		} else {
+			res.status(500).json({ msg: "server error" })
+		}
+	}
 })
 
-// POST a tags
+// POST a tag
 router.post("/", async (req, res) => {
   try {
     // Add a tag to the DB

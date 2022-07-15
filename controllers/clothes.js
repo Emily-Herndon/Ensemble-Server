@@ -5,7 +5,6 @@ const db = require("../models")
 //Post /clothes -- create a new clothing item
 router.post("/", async (req, res) => {
 	try {
-		
 		//create the clothes in the db
 		const newClothes = await db.Clothes.create(req.body)
 		// find current user
