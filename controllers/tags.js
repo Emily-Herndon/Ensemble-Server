@@ -17,7 +17,6 @@ router.get("/", async (req, res) => {
 	}
 })
 
-
 // POST a tag
 router.post("/", async (req, res) => {
 	try {
