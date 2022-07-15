@@ -5,9 +5,8 @@ const db = require("../models")
 // GET the tags
 router.get("/", async (req, res) => {
 	try {
-
 		const allTags = await db.Tag.find({})
-		res.send(allTags)
+		res.json(allTags)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
@@ -17,7 +16,7 @@ router.get("/", async (req, res) => {
 	}
 })
 
-// POST a tags
+// POST a tag
 router.post("/", async (req, res) => {
 	try {
 		// Add a tag to the DB
