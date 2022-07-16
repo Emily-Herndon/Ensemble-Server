@@ -6,8 +6,12 @@ const db = require("../models")
 router.post("/", async (req, res) => {
 	try {
 		
+		console.log(req.body)
+		console.log(req)
+		res.sendStatus(200)
+		return
 		//create the clothes in the db
-		const newClothes = await db.Clothes.create(req.body)
+		// const newClothes = await db.Clothes.create(req.body)
 		// find current user
 		const findUser = db.User.findOne({})
 		// push new clothes into found user's clothes relationship
