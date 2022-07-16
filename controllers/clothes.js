@@ -6,23 +6,31 @@ const db = require("../models")
 router.post("/", async (req, res) => {
 	try {
 		
-		console.log(req.body)
-		console.log(req)
-		res.sendStatus(200)
-		return
+		// console.log(req.body)
+		// console.log(req)
+		// res.sendStatus(200)
+		// return
+		const user = req.body.user
+		console.log("user",user)
+
 		//create the clothes in the db
-		// const newClothes = await db.Clothes.create(req.body)
+		const newClothes = await db.Clothes.create(req.body)
+		console.log("newClothes",newClothes)
 		// find current user
-		const findUser = db.User.findOne({})
+		const foundUser = await db.User.findById(user)
+		console.log("foundUser",foundUser)
 		// push new clothes into found user's clothes relationship
-		// add user to clothes relationship
-		// save both
+		foundUser.clothes.push(newClothes)
+		// save user
+		foundUser.save()
 		res.status(201).json(newClothes)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
 		} else {
-			res.status(500).json({ msg: "server error" })
+			// res.status(500).json({ msg: "server error" })
+			console.warn(error)
+			res.status(500).json({error})
 		}
 	}
 })

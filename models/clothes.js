@@ -14,8 +14,9 @@ const ClothesSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	imgUrl: {
-		type: String,
+    imageId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Image",
 	},
 	outfits: [
 		{

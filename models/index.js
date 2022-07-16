@@ -21,4 +21,5 @@ module.exports = {
 	Outfit: require("./outfit"),
 	Tag: require("./tag"),
 	Clothes: require("./clothes"),
+	Image: require("./images"),
 }

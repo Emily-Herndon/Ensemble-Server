@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 
 // Route specific middleware
 app.use("/users", require("./controllers/users"))
+app.use("/images", require("./controllers/images"))
 app.use("/tags", require("./controllers/tags"))
 app.use("/outfits", require("./controllers/outfits"))
 app.use("/clothes", require("./controllers/clothes"))

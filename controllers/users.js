@@ -7,12 +7,21 @@ router.post("/register", async (req, res) => {
   try {
     // res.send("user registered")
     // check if the user exists already
-    const findUser = await db.User.findOne({
+    const findUserName = await db.User.findOne({
+      userName:req.body.userName
+    })
+
+    if (findUserName) {
+      // stop the route and send a response saying the user exists
+      return res.status(400).json({ msg: "User Name already exists" })
+    }
+    
+    const findUserEmail = await db.User.findOne({
       email: req.body.email,
     })
 
     // disallow users from registering twice
-    if (findUser) {
+    if (findUserEmail) {
       // stop the route and send a response saying the user exists
       return res.status(400).json({ msg: "email already exists" })
     }
@@ -41,7 +50,7 @@ router.post("/register", async (req, res) => {
     }
     // sign the token and send it back
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" }) // expires in one day
-    res.json({ token })
+    res.status(200).json({ token })
   } catch (err) {
     console.warn(err)
     // handle validation errors
@@ -106,7 +115,8 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile/:userName", async (req, res) => {
 	try {
-		const userName = res.params.userName
+
+		const userName = req.params.userName
 		const user = await db.User.findOne({userName: userName}).populate([{
 			path:"clothes"
 		},{

@@ -23,8 +23,9 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		profileImage: {
-			type: String,
+		profileImg: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Image",
 		},
 		clothes: [
 			{
