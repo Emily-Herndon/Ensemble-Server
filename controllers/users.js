@@ -64,6 +64,7 @@ router.post("/register", async (req, res) => {
   }
 })
 
+//POST /users/login -- logs a person in 
 router.post("/login", async (req, res) => {
   try {
     // all the data will come in on the req.body
@@ -118,10 +119,14 @@ router.get("/profile/:userName", async (req, res) => {
 
 		const userName = req.params.userName
 		const user = await db.User.findOne({userName: userName}).populate([{
-			path:"clothes"
+			path:"clothes",
+      populate:{
+        path:"imageId"
+      }
 		},{
 			path:"outfits"
 		}])
+    console.log("user",user)
 		res.status(200).json(user)
 		// res.send("hi")
 	} catch (error) {
@@ -145,7 +150,17 @@ router.put("/profile/:userName", async (req, res) => {
 	}
 })
 
-router.put("/changepassword", async (req, res) => {
+router.get("/:userId", async (req,res) =>{
+  try {
+    const foundUser = await db.User.findById(req.params.userId)
+    res.status(200).json(foundUser)
+  } catch (error) {
+    console.warn(error)
+  }
+})
+
+//PUT /users/changePassword -- changes a users password 
+router.put("/changePassword", async (req, res) => {
 	try {
 		// find user by userId via req.body
 		const foundUser = await db.User.findById(req.body.userId)

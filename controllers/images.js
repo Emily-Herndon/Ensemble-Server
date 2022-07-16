@@ -10,13 +10,18 @@ const uploads = multer({dest: "uploads/"})
 
 router.post("/upload", uploads.single('image'), async (req,res) => {
     try {
+        // console.log(req)
+        // res.status(200).send("hit me")
+        // return
+
         const data = await uploadToCloudinary(req.file.path,"clothes-images")
+        // console.log(data)
         const image = await db.Image.create({
-            imageUrl: data.url,
+            imgUrl: data.url,
             publicId: data.public_id
         })
         unlinkSync(req.file.path)
-        res.status(200).json({publicId:image.publicId})
+        res.status(200).json(image)
     } catch (error) {
         res.status(400).send(error)
         console.warn(error)

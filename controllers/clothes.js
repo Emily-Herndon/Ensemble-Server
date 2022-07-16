@@ -5,24 +5,41 @@ const db = require("../models")
 //Post /clothes -- create a new clothing item
 router.post("/", async (req, res) => {
 	try {
-		
-		// console.log(req.body)
-		// console.log(req)
-		// res.sendStatus(200)
-		// return
+		// set req.body.user to user
 		const user = req.body.user
-		console.log("user",user)
+
+		// configure clothes data before creating
+		const clothesData = {
+			clothesName: req.body.clothesName,
+			category: req.body.category,
+			status: req.body.status,
+			user: user,
+			imageId: req.body.imageId
+		}
 
 		//create the clothes in the db
-		const newClothes = await db.Clothes.create(req.body)
+		const newClothes = await db.Clothes.create(clothesData)
+		// console.log("newClothes",newClothes)
 		console.log("newClothes",newClothes)
 		// find current user
 		const foundUser = await db.User.findById(user)
-		console.log("foundUser",foundUser)
 		// push new clothes into found user's clothes relationship
 		foundUser.clothes.push(newClothes)
 		// save user
 		foundUser.save()
+		
+		// find current Image
+		const foundImg = await db.Image.findById(req.body.imageId)
+		console.log("foundImg",foundImg)
+		// set user to Image
+		foundImg.user = foundUser
+		// save img
+		foundImg.save()
+		await newClothes.populate({
+			path:"imageId"
+		})
+		console.log(newClothes)
+		// send back newClothes json
 		res.status(201).json(newClothes)
 	} catch (error) {
 		if (error.name === "ValidationError") {
