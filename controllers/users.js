@@ -141,7 +141,7 @@ router.put("/profile/:userName", async (req, res) => {
 		}
 		// search for the id in the db, and update using the req.body
 		const options = { new: true } 
-		const updatedProfile = await db.User.findOneAndUpdate(userId, req.body, options)
+		const updatedProfile = await db.User.findOneAndUpdate(userName, req.body, options)
 		// console.log("updatedProfile: ", updatedProfile)
 		res.status(200).json(updatedProfile)
 	} catch (error) {
