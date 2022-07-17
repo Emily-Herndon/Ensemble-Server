@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
 		//create the clothes in the db
 		const newClothes = await db.Clothes.create(clothesData)
 		// console.log("newClothes",newClothes)
-		console.log("newClothes",newClothes)
+		// console.log("newClothes",newClothes)
 		// find current user
 		const foundUser = await db.User.findById(user)
 		// push new clothes into found user's clothes relationship
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 		
 		// find current Image
 		const foundImg = await db.Image.findById(req.body.imageId)
-		console.log("foundImg",foundImg)
+		// console.log("foundImg",foundImg)
 		// set user to Image
 		foundImg.user = foundUser
 		// save img
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
 		await newClothes.populate({
 			path:"imageId"
 		})
-		console.log(newClothes)
+		// console.log(newClothes)
 		// send back newClothes json
 		res.status(201).json(newClothes)
 	} catch (error) {
@@ -81,8 +81,19 @@ router.delete("/:id", async (req, res) => {
 		// res.send("clothing deleted")
 		//get id of specific clothes from the params
 		const id = req.params.id
+		const foundClothes = await db.Clothes.findById(id).populate({path: "user"})
+		// console.log(foundClothes)
+		const foundUser = await db.User.findById(foundClothes.user._id)
+		console.log("FOUND USER",foundUser)
+		const deletedClothing = foundUser.clothes.indexOf(foundClothes._id)
+		// console.log(deletedClothing)
+		// remove specific clothing item from current users clothes array
+		const spliced = foundUser.clothes.splice(deletedClothing, 1)
+		console.log("SPLICED", spliced)
 		//find and delete the clothes from bd
 		await db.Clothes.findByIdAndDelete(id)
+		await foundUser.save()
+		console.log("FOUND USER AFTER", foundUser)
 		//send no content status
 		res.sendStatus(204)
 	} catch (error) {

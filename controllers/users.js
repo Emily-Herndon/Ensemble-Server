@@ -126,7 +126,7 @@ router.get("/profile/:userName", async (req, res) => {
 		},{
 			path:"outfits"
 		}])
-    console.log("user",user)
+    // console.log("user",user)
 		res.status(200).json(user)
 		// res.send("hi")
 	} catch (error) {
@@ -139,6 +139,21 @@ router.put("/profile/:userName", async (req, res) => {
 		const userName = {
 			userName: req.params.userName
 		}
+    const email = {
+      email: req.body.email
+    }
+    const foundUserName = await db.User.findOne(userName)
+    // console.log("foundUserName", foundUserName)
+    if (foundUserName) {
+      res.status(400).json({msg: "User Name already exists"})
+      return
+    }
+    const foundEmail = await db.User.findOne(email)
+    if (foundEmail) {
+      res.status(400).json({msg: "Email already exists"})
+      return
+    }
+
 		// search for the id in the db, and update using the req.body
 		const options = { new: true } 
 		const updatedProfile = await db.User.findOneAndUpdate(userName, req.body, options)
@@ -162,11 +177,14 @@ router.get("/:userId", async (req,res) =>{
 //PUT /users/changePassword -- changes a users password 
 router.put("/changePassword", async (req, res) => {
 	try {
-		// find user by userId via req.body
+		
+    console.log("reqBody:",req.body)
+    // find user by userId via req.body
 		const foundUser = await db.User.findById(req.body.userId)
 
 		// check if the supplied password matches the hash in the db
-		const passwordCheck = bcrypt.compare(req.body.currentPassword, foundUser.password)
+		const passwordCheck = await bcrypt.compare(req.body.currentPassword, foundUser.password)
+    console.log("passwordCheck",passwordCheck)
 		// if they do not match, return and let the user know that login has failed
 		if (!passwordCheck) {
 			// console.log('incorrect password', req.body.currentPassword)
