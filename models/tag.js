@@ -17,6 +17,14 @@ const TagSchema = new mongoose.Schema({
 			ref: "Outfit",
 		},
 	],
-})
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+	},
+},
+{
+	timestamps: true,
+}
+)
 
 module.exports = mongoose.model("Tag", TagSchema)

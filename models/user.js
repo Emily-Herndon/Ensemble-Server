@@ -39,6 +39,12 @@ const UserSchema = new mongoose.Schema(
 				ref: "Outfit",
 			},
 		],
+		tags: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Tag",
+			},
+		]
 	},
 	{
 		timestamps: true,

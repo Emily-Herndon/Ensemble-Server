@@ -15,7 +15,7 @@ router.post("/upload", uploads.single('image'), async (req,res) => {
         // return
 
         const data = await uploadToCloudinary(req.file.path,"clothes-images")
-        // console.log(data)
+        console.log(data)
         const image = await db.Image.create({
             imgUrl: data.url,
             publicId: data.public_id

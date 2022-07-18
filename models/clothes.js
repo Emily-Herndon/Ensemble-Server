@@ -34,6 +34,9 @@ const ClothesSchema = new mongoose.Schema({
 			ref: "Tag",
 		},
 	],
+},
+{
+	timestamps: true,
 })
 
 module.exports = mongoose.model("Clothes", ClothesSchema)
