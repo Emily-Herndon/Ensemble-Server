@@ -116,13 +116,14 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile/:userName", async (req, res) => {
 	try {
-
+    
 		const userName = req.params.userName
 		const user = await db.User.findOne({userName: userName}).populate([{
 			path:"clothes",
-      populate:{
-        path:"imageId"
-      }
+      populate:[
+        {path:"imageId"},
+        {path: "tags"}
+      ]
 		},{
 			path:"outfits"
 		}])
@@ -136,29 +137,55 @@ router.get("/profile/:userName", async (req, res) => {
 
 router.put("/profile/:userName", async (req, res) => {
 	try {
+
+    console.log("reqBody",req.body)
 		const userName = {
-			userName: req.params.userName
+			userName: req.body.userName
 		}
     const email = {
       email: req.body.email
     }
-    const foundUserName = await db.User.findOne(userName)
-    // console.log("foundUserName", foundUserName)
-    if (foundUserName) {
-      res.status(400).json({msg: "User Name already exists"})
-      return
-    }
-    const foundEmail = await db.User.findOne(email)
-    if (foundEmail) {
-      res.status(400).json({msg: "Email already exists"})
-      return
+    console.log(req.body.userName, req.body.currentUserName)
+    const compareUserName = req.body.userName === req.body.currentUserName
+    console.log("compareUserName",compareUserName)
+    if (!compareUserName){
+      const foundUserName = await db.User.findOne(userName)
+      // console.log("foundUserName", foundUserName)
+      if (foundUserName) {
+        res.status(400).json({msg: "User Name already exists"})
+        return
+      }
     }
 
+    const compareEmail = req.body.email === req.body.currentEmail
+    console.log("compareEmail", compareEmail)
+    if (!compareEmail){
+      const foundEmail = await db.User.findOne(email)
+      if (foundEmail) {
+        res.status(400).json({msg: "Email already exists"})
+        return
+      }
+    }
+
+    const accountEditData = {
+      firstName:req.body.firstName,
+      lastName:req.body.lastName,
+      userName:req.body.userName,
+      email:req.body.email,
+    }
 		// search for the id in the db, and update using the req.body
 		const options = { new: true } 
-		const updatedProfile = await db.User.findOneAndUpdate(userName, req.body, options)
-		// console.log("updatedProfile: ", updatedProfile)
-		res.status(200).json(updatedProfile)
+		const updatedProfile = await db.User.findOneAndUpdate(req.body.currentUserName, accountEditData, options)
+		console.log("updatedProfile: ", updatedProfile)
+
+    const payload = {
+      userName: updatedProfile.userName,
+      email: updatedProfile.email,
+      id: updatedProfile.id,
+    }
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" })
+		res.status(200).json({token})
 	} catch (error) {
 		console.warn(error)
 		res.status(500).json({ msg: 'server error' })

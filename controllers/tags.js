@@ -2,7 +2,7 @@ const router = require("express").Router()
 const { model } = require("mongoose")
 const db = require("../models")
 
-// GET ALL the tags
+// /tags --GET ALL the tags
 router.get("/", async (req, res) => {
 	try {
 		// figure out how to get current user from front end to save relationship
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 })
 
 
-// POST a tag
+// /tags --POST a tag
 router.post("/", async (req, res) => {
 	try {
 		// Add a tag to the DB
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
 	}
 })
 
-// DELETE a tag
+// /tags/:id --DELETE a tag
 router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id
@@ -48,7 +48,7 @@ router.delete("/:id", async (req, res) => {
   }
 })
 
-// GET /tags/:id specific tag
+// /tags/:id --GET specific tag
 router.get("/:id", async (req, res) => {
 	try {
 		const tagId = req.params.id
