@@ -126,7 +126,9 @@ router.get("/profile/:userName", async (req, res) => {
       ]
 		},{
 			path:"outfits"
-		}])
+		},{
+      path: "tags"
+    }])
     // console.log("user",user)
 		res.status(200).json(user)
 		// res.send("hi")

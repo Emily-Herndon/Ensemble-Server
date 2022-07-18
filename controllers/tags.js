@@ -23,6 +23,12 @@ router.post("/", async (req, res) => {
 	try {
 		// Add a tag to the DB
 		const newTag = await db.Tag.create(req.body) 
+		// console.log("NEW TAG",newTag)
+		// console.log(req.body.user)
+		const user = await db.User.findById(req.body.user)
+		// console.log("USER",user)
+		user.tags.push(newTag)
+		await user.save()
 		res.status(201).json(newTag)
 	} catch (error) {
 		if (error.name === "ValidationError") {
