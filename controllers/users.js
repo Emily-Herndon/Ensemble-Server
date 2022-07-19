@@ -125,7 +125,11 @@ router.get("/profile/:userName", async (req, res) => {
         {path: "tags"}
       ]
 		},{
-			path:"outfits"
+			path:"outfits",
+      populate:[
+        {path: "clothes"},
+        {path: "tags"}
+      ]
 		},{
       path: "tags"
     }])
@@ -149,7 +153,7 @@ router.put("/profile/:userName", async (req, res) => {
     }
     console.log(req.body.userName, req.body.currentUserName)
     const compareUserName = req.body.userName === req.body.currentUserName
-    console.log("compareUserName",compareUserName)
+    // console.log("compareUserName",compareUserName)
     if (!compareUserName){
       const foundUserName = await db.User.findOne(userName)
       // console.log("foundUserName", foundUserName)
@@ -160,7 +164,7 @@ router.put("/profile/:userName", async (req, res) => {
     }
 
     const compareEmail = req.body.email === req.body.currentEmail
-    console.log("compareEmail", compareEmail)
+    // console.log("compareEmail", compareEmail)
     if (!compareEmail){
       const foundEmail = await db.User.findOne(email)
       if (foundEmail) {
@@ -177,7 +181,7 @@ router.put("/profile/:userName", async (req, res) => {
     }
 		// search for the id in the db, and update using the req.body
 		const options = { new: true } 
-		const updatedProfile = await db.User.findOneAndUpdate(req.body.currentUserName, accountEditData, options)
+		const updatedProfile = await db.User.findOneAndUpdate({userName:req.body.currentUserName}, accountEditData, options)
 		console.log("updatedProfile: ", updatedProfile)
 
     const payload = {
