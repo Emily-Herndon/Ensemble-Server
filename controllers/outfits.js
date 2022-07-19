@@ -26,10 +26,10 @@ router.post("/", async (req, res) => {
 		//create a new outfit using req.body
 		const newOutfit = await db.Outfit.create(req.body)
 		// console.log(newOutfit)
-		const foundUser = await db.User.findById(user).populate({path: 'outfit'})
-
+		const foundUser = await db.User.findById(user).populate({path: 'outfits'})
 		foundUser.outfits.push(newOutfit)
-		foundUser.save()
+		await foundUser.save()
+		console.log("foundUser",foundUser)
 
 		console.log('newOutfit', newOutfit)
 		res.status(201).json(newOutfit)
