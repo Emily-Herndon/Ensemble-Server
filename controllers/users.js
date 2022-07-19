@@ -144,14 +144,15 @@ router.get("/profile/:userName", async (req, res) => {
 router.put("/profile/:userName", async (req, res) => {
 	try {
 
-    console.log("reqBody",req.body)
+    // console.log("reqBody",req.body)
+    
 		const userName = {
 			userName: req.body.userName
 		}
     const email = {
       email: req.body.email
     }
-    console.log(req.body.userName, req.body.currentUserName)
+    // console.log(req.body.userName, req.body.currentUserName)
     const compareUserName = req.body.userName === req.body.currentUserName
     // console.log("compareUserName",compareUserName)
     if (!compareUserName){
@@ -182,12 +183,17 @@ router.put("/profile/:userName", async (req, res) => {
 		// search for the id in the db, and update using the req.body
 		const options = { new: true } 
 		const updatedProfile = await db.User.findOneAndUpdate({userName:req.body.currentUserName}, accountEditData, options)
-		console.log("updatedProfile: ", updatedProfile)
+    
+    const foundImage = await db.Image.findById(req.body.profileImgId)
+    updatedProfile.profileImg = foundImage
+    await updatedProfile.save()
+		// console.log("updatedProfile: ", updatedProfile)
 
     const payload = {
       userName: updatedProfile.userName,
       email: updatedProfile.email,
       id: updatedProfile.id,
+      profileImg:updatedProfile.profileImg.imgUrl
     }
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" })

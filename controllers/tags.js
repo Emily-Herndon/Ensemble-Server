@@ -43,7 +43,14 @@ router.post("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id
-    await db.Tag.findByIdAndDelete(id)
+	const foundTag = await db.Tag.findById(id).populate([{path: "user"}, {path: "clothes"}, {path: "outfits"}])
+	// console.log("FOUND TAG", foundTag)
+	const foundUser = await db.User.findById(foundTag.user._id)
+	// console.log("FOUND USER", foundUser)
+	const deletedTag = foundUser.tags.indexOf(foundTag._id)
+	// console.log(deletedTag)
+	const spliced = foundUser.tags.splice(deletedTag, 1)
+    // await db.Tag.findByIdAndDelete(id)
     res.sendStatus(204)
   } catch (error) {
     if (error.name === "ValidationError") {

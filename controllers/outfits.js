@@ -21,8 +21,11 @@ router.get("/", async (req, res) => {
 //POST /outfits -- create a new outfit
 router.post("/", async (req, res) => {
 	try {
+		console.log(req.body)
+
 		//create a new outfit using req.body
 		const newOutfit = await db.Outfit.create(req.body)
+		console.log('newOutfit', newOutfit)
 		res.status(201).json(newOutfit)
 	} catch (error) {
 		if (error.name === "ValidationError") {
