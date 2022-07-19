@@ -24,9 +24,9 @@ const OutfitSchema = new mongoose.Schema({
 			ref: "Clothes",
 		},
 	],
-	owner: {
+	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "Owner",
+		ref: "User",
 	},
 	tags: [
 		{

@@ -132,6 +132,8 @@ router.get("/profile/:userName", async (req, res) => {
       ]
 		},{
       path: "tags"
+    },{
+      path: "profileImg"
     }])
     // console.log("user",user)
 		res.status(200).json(user)

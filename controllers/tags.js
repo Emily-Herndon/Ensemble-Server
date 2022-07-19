@@ -50,6 +50,12 @@ router.delete("/:id", async (req, res) => {
 	const deletedTag = foundUser.tags.indexOf(foundTag._id)
 	// console.log(deletedTag)
 	const spliced = foundUser.tags.splice(deletedTag, 1)
+	const taggedClothes = foundTag.clothes
+	
+	for (const clothing of taggedClothes) {
+		console.log("this is clothing",clothing)
+		// const foundClothing = await db.Clothes.
+	}
     // await db.Tag.findByIdAndDelete(id)
     res.sendStatus(204)
   } catch (error) {

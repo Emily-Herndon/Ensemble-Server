@@ -21,10 +21,16 @@ router.get("/", async (req, res) => {
 //POST /outfits -- create a new outfit
 router.post("/", async (req, res) => {
 	try {
-		console.log(req.body)
-
+		console.log("outfit reqbody",req.body)
+		const user = req.body.user
 		//create a new outfit using req.body
 		const newOutfit = await db.Outfit.create(req.body)
+		// console.log(newOutfit)
+		const foundUser = await db.User.findById(user).populate({path: 'outfit'})
+
+		foundUser.outfits.push(newOutfit)
+		foundUser.save()
+
 		console.log('newOutfit', newOutfit)
 		res.status(201).json(newOutfit)
 	} catch (error) {
