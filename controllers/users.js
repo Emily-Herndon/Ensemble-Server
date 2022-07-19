@@ -127,7 +127,9 @@ router.get("/profile/:userName", async (req, res) => {
 		},{
 			path:"outfits",
       populate:[
-        {path: "clothes"},
+        {path: "top"},
+        {path: "bottom"},
+        {path: "shoes"},
         {path: "tags"}
       ]
 		},{

@@ -35,7 +35,6 @@ router.post("/", async (req, res) => {
 		// foundUser.outfits.push(newOutfit)
 		// await foundUser.save()
 		// console.log("FOUNDUSER AFTER", foundUser)
-		return
 		// res.status(201).json(newOutfit)
 	} catch (error) {
 		if (error.name === "ValidationError") {
