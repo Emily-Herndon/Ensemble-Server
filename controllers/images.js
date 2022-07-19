@@ -12,7 +12,7 @@ router.post("/upload", uploads.single('image'), async (req,res) => {
     try {
         // console.log(req)
         // res.status(200).send("hit me")
-        // return
+        // returnpos
 
         const data = await uploadToCloudinary(req.file.path,"clothes-images")
         console.log(data)

@@ -22,17 +22,21 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
 	try {
 		console.log("outfit reqbody",req.body)
-		const user = req.body.user
+		// const user = req.body.user
 		//create a new outfit using req.body
-		const newOutfit = await db.Outfit.create(req.body)
-		// console.log(newOutfit)
-		const foundUser = await db.User.findById(user).populate({path: 'outfits'})
-		foundUser.outfits.push(newOutfit)
-		await foundUser.save()
-		console.log("foundUser",foundUser)
-
-		console.log('newOutfit', newOutfit)
-		res.status(201).json(newOutfit)
+		// const newOutfit = await db.Outfit.create(req.body)
+		// console.log("NEWOUTFIT",newOutfit)
+		// await newOutfit.save()
+		// find user
+		// const foundUser = await db.User.findById(user)
+		// .populate({path: 'outfits'})
+		// console.log("FOUNDUSER",foundUser)
+		// push outfit to user's outfit array
+		// foundUser.outfits.push(newOutfit)
+		// await foundUser.save()
+		// console.log("FOUNDUSER AFTER", foundUser)
+		return
+		// res.status(201).json(newOutfit)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
@@ -55,7 +59,7 @@ router.put("/:id", async (req, res) => {
 			options
 		)
 		//the update bounty back to client
-		res.json(updatedOutfit)
+		res.status(200).json(updatedOutfit)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })

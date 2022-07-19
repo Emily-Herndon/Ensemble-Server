@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
 		// console.log("newClothes",newClothes)
 		// find current user
 		const foundUser = await db.User.findById(user).populate({path: 'clothes'})
+		console.log(foundUser)
 		// push new clothes into found user's clothes relationship
 		foundUser.clothes.push(newClothes)
 		// save user

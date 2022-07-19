@@ -38,6 +38,18 @@ router.post("/", async (req, res) => {
 		}
 	}
 })
+// /tags PUT tags
+router.put("/", async (req,res) => {
+	try {
+		
+	} catch (error) {
+		if (error.name === "ValidationError") {
+			res.status(400).json({ msg: error.message })
+		} else {
+			res.status(500).json({ msg: "server error" })
+		}
+	}
+})
 
 // /tags/:id --DELETE a tag
 router.delete("/:id", async (req, res) => {
@@ -66,6 +78,7 @@ router.delete("/:id", async (req, res) => {
     }
   }
 })
+
 
 // /tags/:id --GET specific tag
 router.get("/:id", async (req, res) => {
