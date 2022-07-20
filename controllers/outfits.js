@@ -21,21 +21,37 @@ router.get("/", async (req, res) => {
 //POST /outfits -- create a new outfit
 router.post("/", async (req, res) => {
 	try {
-		console.log("outfit reqbody",req.body)
-		// const user = req.body.user
-		//create a new outfit using req.body
-		// const newOutfit = await db.Outfit.create(req.body)
+		// console.log("outfit reqbody",req.body)
+		const user = req.body.user
+		// create a new outfit using req.body
+		const newOutfit = await db.Outfit.create(req.body)
 		// console.log("NEWOUTFIT",newOutfit)
 		// await newOutfit.save()
+
+		// find top clothes and push outfit in
+		const foundTop = await db.Clothes.findById(req.body.top._id)
+		// console.log("foundTop",foundTop)
+		foundTop.outfits.push(newOutfit)
+
+		// find bottom clothes and push outfit in
+		const foundBottom = await db.Clothes.findById(req.body.bottom._id)
+		// console.log("foundBottom",foundBottom)
+		foundBottom.outfits.push(newOutfit)
+
+		// find shoes clothes and push outfit in
+		const foundShoes = await db.Clothes.findById(req.body.shoes._id)
+		// console.log("foundShoes",foundShoes)
+		foundShoes.outfits.push(newOutfit)
+
 		// find user
-		// const foundUser = await db.User.findById(user)
-		// .populate({path: 'outfits'})
-		// console.log("FOUNDUSER",foundUser)
+		const foundUser = await db.User.findById(user)
+		.populate({path: 'outfits'})
+		console.log("FOUNDUSER",foundUser)
 		// push outfit to user's outfit array
-		// foundUser.outfits.push(newOutfit)
-		// await foundUser.save()
-		// console.log("FOUNDUSER AFTER", foundUser)
-		// res.status(201).json(newOutfit)
+		foundUser.outfits.push(newOutfit)
+		await foundUser.save()
+		console.log("FOUNDUSER AFTER", foundUser)
+		res.status(201).json(newOutfit)
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })

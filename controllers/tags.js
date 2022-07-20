@@ -41,7 +41,20 @@ router.post("/", async (req, res) => {
 // /tags PUT tags
 router.put("/", async (req,res) => {
 	try {
-		
+		console.log(req.body)
+		const clothingId = req.body.clothing._id
+		// console.log("CLOTHINGID", clothingId)
+		const foundClothing = await db.Clothes.findById(clothingId)
+		// console.log("FOUNDCLOTHING", foundClothing)
+		foundClothing.tags = req.body.tags
+		for (const tag of req.body.tags) {
+			// console.log("TAGID", tag._id)
+			const foundTag = await db.Tag.findById(tag._id)
+			// console.log("FOUNDTAG", foundTag)
+			foundTag.clothes.push(foundClothing)
+			await foundTag.save()
+		}
+		await foundClothing.save()
 	} catch (error) {
 		if (error.name === "ValidationError") {
 			res.status(400).json({ msg: error.message })
@@ -63,12 +76,16 @@ router.delete("/:id", async (req, res) => {
 	// console.log(deletedTag)
 	const spliced = foundUser.tags.splice(deletedTag, 1)
 	const taggedClothes = foundTag.clothes
-	
+	await foundUser.save()
 	for (const clothing of taggedClothes) {
 		console.log("this is clothing",clothing)
-		// const foundClothing = await db.Clothes.
+		const clothingId = clothing._id
+		const foundClothing = await db.Clothes.findById(clothing._id)
+		const deletedTag = foundClothing.tags.indexOf(foundTag._id)
+		const spliced = foundClothing.tags.splice(deletedTag, 1)
+		await foundClothing.save()
 	}
-    // await db.Tag.findByIdAndDelete(id)
+    await db.Tag.findByIdAndDelete(id)
     res.sendStatus(204)
   } catch (error) {
     if (error.name === "ValidationError") {
