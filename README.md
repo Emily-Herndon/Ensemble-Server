@@ -40,17 +40,21 @@ Ensemble allows you to add, delete and constantly virtually update your closet.
 
 ## MVP Requirements:
 
-- [ ] User able to upload photos of each of their clothing items
-- [ ] User able to categorize outfit pieces
-- [ ] The app has full CRUD functionality
+- [X] User able to upload photos of each of their clothing items
+- [X] User able to categorize outfit pieces
+- [X] The app has full CRUD functionality
 
 ## Stretch Goals:
 
-- [ ] User able to see pieces together/ clothing pieces displayed in stacked carousels
+- [X] User able to see pieces together/ clothing pieces displayed in stacked carousels
+- [X] User able to save outfits
+- [X] User able tag clothing items
+- [X] User able to change the status of clothing items
+- [X] User able to change profile picture
+- [X] Clothing displays on a carousel
 - [ ] Accessories component
 - [ ] AI models for clothing
 - [ ] Users are able to publicly post outfits
-- [ ] Clothing displays on a carousel
 - [ ] User able to visualize outfit on themselves
 - [ ] User able to choose from selection of premade color themes
 - [ ] User able to make their own color theme
@@ -60,9 +64,7 @@ Ensemble allows you to add, delete and constantly virtually update your closet.
 ![](https://i.imgur.com/nahQOsL.png)
 
 ## RESTful Routing Chart:
-
-![](https://i.imgur.com/GV0Om2R.png)
+![](https://i.imgur.com/y1G4DAX.png)
 
 ## ERD:
-
-![](https://i.imgur.com/T6E4Cpw.png)
+![](https://i.imgur.com/WlPTRpP.png)
